@@ -25,13 +25,16 @@ jobs:
         with:
           gradle-version: '8.13'
 
-      - name: Install Android 17 SDK (API 37)
+      - name: Install Android 17 SDK (API 37.0)
         run: |
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null || true
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-37" "build-tools;37.0.0"
+          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-37.0" "build-tools;37.0.0"
+          if [ -d "$ANDROID_HOME/platforms/android-37.0" ] && [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
+            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
+          fi
 
       - name: Build Debug APK
-        run: gradle assembleDebug --stacktrace
+        run: gradle assembleDebug -Pandroid.suppressUnsupportedCompileSdk=37 --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
