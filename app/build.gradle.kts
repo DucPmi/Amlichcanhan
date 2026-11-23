@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.liquidglass.vncalendar"
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.liquidglass.vncalendar"
         minSdk = 31
-        targetSdk = 37
+        targetSdk = 36
         versionCode = 2
         versionName = "1.1.0"
 
