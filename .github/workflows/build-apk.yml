@@ -29,9 +29,9 @@ jobs:
         run: |
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses > /dev/null || true
           $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-37.0" "build-tools;37.0.0"
-          if [ -d "$ANDROID_HOME/platforms/android-37.0" ] && [ ! -e "$ANDROID_HOME/platforms/android-37" ]; then
-            ln -s android-37.0 "$ANDROID_HOME/platforms/android-37"
-          fi
+          rm -rf "$ANDROID_HOME/platforms/android-37"
+          cp -r "$ANDROID_HOME/platforms/android-37.0" "$ANDROID_HOME/platforms/android-37"
+          sed -i 's/platforms;android-37\.0/platforms;android-37/g' "$ANDROID_HOME/platforms/android-37/package.xml"
 
       - name: Build Debug APK
         run: gradle assembleDebug -Pandroid.suppressUnsupportedCompileSdk=37 --stacktrace
