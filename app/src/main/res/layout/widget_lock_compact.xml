@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/compact_widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_glass_bg"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingHorizontal="14dp"
+    android:paddingVertical="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/compact_solar_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="CN, 22/11/2026"
+            android:textColor="#F8FAFC"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <TextView
+            android:id="@+id/compact_lunar_pill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/widget_pill_bg"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:text="ÂL 14/10 • Bính Ngọ"
+            android:textColor="#FDE68A"
+            android:textSize="10.5sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/compact_quote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="“Clarity precedes mastery.” — Robin Sharma"
+        android:textColor="#E2E8F0"
+        android:textSize="11.5sp"
+        android:textStyle="italic"
+        android:maxLines="2"
+        android:ellipsize="end" />
+</LinearLayout>
