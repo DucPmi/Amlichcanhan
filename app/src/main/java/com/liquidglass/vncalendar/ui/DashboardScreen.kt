@@ -277,7 +277,7 @@ fun LiquidGlassDashboardScreen(viewModel: DashboardViewModel) {
                         Row {
                             IconButton(
                                 onClick = {
-                                    val full = ""${state.quote.text}" — ${state.quote.author}"
+                                    val full = "“${state.quote.text}” — ${state.quote.author}"
                                     clipboard.setText(AnnotatedString(full))
                                     Toast.makeText(context, "Đã sao chép quote", Toast.LENGTH_SHORT).show()
                                 },
@@ -396,7 +396,7 @@ fun LiquidGlassDashboardScreen(viewModel: DashboardViewModel) {
 
                     if (state.upcomingEvents.isEmpty()) {
                         Text(
-                            text = "Chưa có sự kiện nào trong 14 ngày tới. Nhấn "Thêm" hoặc "Đồng bộ lịch" để hiển thị.",
+                            text = "Chưa có sự kiện nào trong 14 ngày tới. Nhấn 'Thêm' hoặc 'Đồng bộ lịch' để hiển thị.",
                             fontSize = 13.sp,
                             color = secondaryText,
                             modifier = Modifier.padding(vertical = 8.dp)
