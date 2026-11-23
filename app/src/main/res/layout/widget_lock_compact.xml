@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="CN, 22/11/2026"
+            android:text="T2, 23/11/2026"
             android:textColor="#F8FAFC"
             android:textSize="13sp"
             android:textStyle="bold"
@@ -34,21 +34,20 @@
             android:background="@drawable/widget_pill_bg"
             android:paddingHorizontal="8dp"
             android:paddingVertical="2dp"
-            android:text="ÂL 14/10 • Bính Ngọ"
+            android:text="ÂL 15/10 • Bính Ngọ"
             android:textColor="#FDE68A"
             android:textSize="10.5sp"
             android:textStyle="bold" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/compact_quote"
+        android:id="@+id/compact_next_event"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="“Clarity precedes mastery.” — Robin Sharma"
+        android:text="Chưa có sự kiện sắp tới"
         android:textColor="#E2E8F0"
-        android:textSize="11.5sp"
-        android:textStyle="italic"
-        android:maxLines="2"
+        android:textSize="12sp"
+        android:maxLines="1"
         android:ellipsize="end" />
 </LinearLayout>

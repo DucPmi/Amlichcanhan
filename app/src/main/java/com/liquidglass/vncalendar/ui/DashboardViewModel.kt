@@ -3,9 +3,7 @@ package com.liquidglass.vncalendar.ui
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.liquidglass.vncalendar.data.EnglishQuote
 import com.liquidglass.vncalendar.data.LunarDate
-import com.liquidglass.vncalendar.data.QuoteRepository
 import com.liquidglass.vncalendar.data.ScheduleEvent
 import com.liquidglass.vncalendar.data.ScheduleRepository
 import com.liquidglass.vncalendar.data.VietnameseLunarCalendar
@@ -17,13 +15,12 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.ZonedDateTime
 import java.time.ZoneId
+import java.time.ZonedDateTime
 
 data class DashboardUiState(
     val now: ZonedDateTime,
     val lunarDate: LunarDate,
-    val quote: EnglishQuote,
     val upcomingEvents: List<ScheduleEvent>,
     val hasCalendarPermission: Boolean,
     val isDarkMode: Boolean
@@ -51,7 +48,6 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
                 mm = today.monthValue,
                 yy = today.year
             ),
-            quote = QuoteRepository.quoteForDate(today),
             upcomingEvents = scheduleRepository.loadUpcomingEvents(),
             hasCalendarPermission = scheduleRepository.hasCalendarPermission(),
             isDarkMode = true
@@ -76,17 +72,10 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
                             )
                         } else {
                             current.lunarDate
-                        },
-                        quote = if (dateChanged) QuoteRepository.quoteForDate(today) else current.quote
+                        }
                     )
                 }
             }
-        }
-    }
-
-    fun shuffleQuote() {
-        _uiState.update { current ->
-            current.copy(quote = QuoteRepository.randomQuote(excluding = current.quote))
         }
     }
 

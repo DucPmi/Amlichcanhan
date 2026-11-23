@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Lịch Kính</string>
     <string name="widget_full_name">Lịch Kính • Đầy đủ (Home &amp; Lock)</string>
-    <string name="widget_full_desc">Hiển thị giờ, ngày Dương/Âm lịch Việt Nam, lịch sắp tới và English quote theo phong cách iOS Liquid Glass.</string>
+    <string name="widget_full_desc">Hiển thị giờ, ngày Dương/Âm lịch Việt Nam và lịch sắp tới theo phong cách iOS Liquid Glass.</string>
     <string name="widget_compact_name">Lịch Kính • Gọn (Màn hình khóa)</string>
-    <string name="widget_compact_desc">Hiển thị nhanh ngày Dương/Âm lịch Việt Nam và câu quote tiếng Anh trên màn hình khóa và màn hình chính.</string>
+    <string name="widget_compact_desc">Hiển thị nhanh ngày Dương/Âm lịch Việt Nam và lịch sắp tới trên màn hình khóa và màn hình chính.</string>
 </resources>

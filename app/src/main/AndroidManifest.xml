@@ -22,7 +22,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Widget 1: Full Liquid Glass (Màn hình chính & Màn hình khóa) -->
         <receiver
             android:name=".widget.LiquidGlassWidgetProvider"
             android:exported="true"
@@ -39,7 +38,6 @@
                 android:resource="@xml/widget_liquid_glass_info" />
         </receiver>
 
-        <!-- Widget 2: Compact Liquid Glass (Tối ưu Màn hình khóa & Màn hình chính) -->
         <receiver
             android:name=".widget.LockScreenCompactWidgetProvider"
             android:exported="true"

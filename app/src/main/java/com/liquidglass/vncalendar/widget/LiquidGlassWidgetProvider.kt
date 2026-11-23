@@ -9,11 +9,9 @@ import android.content.Intent
 import android.widget.RemoteViews
 import com.liquidglass.vncalendar.MainActivity
 import com.liquidglass.vncalendar.R
-import com.liquidglass.vncalendar.data.QuoteRepository
 import com.liquidglass.vncalendar.data.ScheduleRepository
 import com.liquidglass.vncalendar.data.VietnameseLunarCalendar
 import java.time.DayOfWeek
-import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
@@ -64,7 +62,6 @@ class LiquidGlassWidgetProvider : AppWidgetProvider() {
                 mm = today.monthValue,
                 yy = today.year
             )
-            val quote = QuoteRepository.quoteForDate(today)
             val nextEvent = ScheduleRepository(context).loadUpcomingEvents().firstOrNull()
 
             val views = RemoteViews(context.packageName, R.layout.widget_liquid_glass)
@@ -94,12 +91,6 @@ class LiquidGlassWidgetProvider : AppWidgetProvider() {
                 views.setTextViewText(R.id.widget_next_event, "Chưa có sự kiện sắp tới")
             }
 
-            views.setTextViewText(
-                R.id.widget_quote,
-                "“${quote.text}” — ${quote.author}"
-            )
-
-            // Chạm vào widget mở app chính
             val openAppIntent = Intent(context, MainActivity::class.java)
             val openPending = PendingIntent.getActivity(
                 context,
@@ -109,7 +100,6 @@ class LiquidGlassWidgetProvider : AppWidgetProvider() {
             )
             views.setOnClickPendingIntent(R.id.widget_root, openPending)
 
-            // Chạm nút làm mới cập nhật lại widget ngay lập tức
             val refreshIntent = Intent(context, LiquidGlassWidgetProvider::class.java).apply {
                 action = ACTION_REFRESH
             }

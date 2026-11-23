@@ -4,10 +4,6 @@ import android.Manifest
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,13 +26,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.CalendarMonth
-import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.DarkMode
 import androidx.compose.material.icons.rounded.DeleteOutline
-import androidx.compose.material.icons.rounded.FormatQuote
 import androidx.compose.material.icons.rounded.LightMode
 import androidx.compose.material.icons.rounded.NightsStay
-import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -56,10 +49,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -77,7 +67,6 @@ import java.time.format.DateTimeFormatter
 fun LiquidGlassDashboardScreen(viewModel: DashboardViewModel) {
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
-    val clipboard = LocalClipboardManager.current
     val zoneId = remember { ZoneId.of("Asia/Ho_Chi_Minh") }
 
     var showAddDialog by remember { mutableStateOf(false) }
@@ -148,6 +137,7 @@ fun LiquidGlassDashboardScreen(viewModel: DashboardViewModel) {
                 }
             }
 
+            // 1. Ngày giờ hôm nay + Lịch Âm Việt Nam
             LiquidGlassCard(isDark = isDark, modifier = Modifier.fillMaxWidth()) {
                 Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
                     Row(
@@ -250,85 +240,7 @@ fun LiquidGlassDashboardScreen(viewModel: DashboardViewModel) {
                 }
             }
 
-            LiquidGlassCard(isDark = isDark, modifier = Modifier.fillMaxWidth()) {
-                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(
-                                imageVector = Icons.Rounded.FormatQuote,
-                                contentDescription = null,
-                                tint = accentCyan,
-                                modifier = Modifier.size(20.dp)
-                            )
-                            Spacer(modifier = Modifier.width(6.dp))
-                            Text(
-                                text = "DAILY QUOTE",
-                                fontSize = 11.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                letterSpacing = 1.1.sp,
-                                color = secondaryText
-                            )
-                        }
-
-                        Row {
-                            IconButton(
-                                onClick = {
-                                    val full = "“${state.quote.text}” — ${state.quote.author}"
-                                    clipboard.setText(AnnotatedString(full))
-                                    Toast.makeText(context, "Đã sao chép quote", Toast.LENGTH_SHORT).show()
-                                },
-                                modifier = Modifier.size(34.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.ContentCopy,
-                                    contentDescription = "Sao chép",
-                                    tint = secondaryText,
-                                    modifier = Modifier.size(17.dp)
-                                )
-                            }
-                            IconButton(
-                                onClick = { viewModel.shuffleQuote() },
-                                modifier = Modifier.size(34.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Refresh,
-                                    contentDescription = "Đổi quote",
-                                    tint = primaryText,
-                                    modifier = Modifier.size(18.dp)
-                                )
-                            }
-                        }
-                    }
-
-                    AnimatedContent(
-                        targetState = state.quote,
-                        transitionSpec = { fadeIn() togetherWith fadeOut() },
-                        label = "QuoteTransition"
-                    ) { quote ->
-                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            Text(
-                                text = "“${quote.text}”",
-                                fontSize = 17.sp,
-                                lineHeight = 25.sp,
-                                fontStyle = FontStyle.Italic,
-                                fontWeight = FontWeight.Normal,
-                                color = primaryText
-                            )
-                            Text(
-                                text = "— ${quote.author}",
-                                fontSize = 13.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = accentCyan
-                            )
-                        }
-                    }
-                }
-            }
-
+            // 2. Lịch sắp tới
             LiquidGlassCard(isDark = isDark, modifier = Modifier.fillMaxWidth()) {
                 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                     Row(
@@ -403,7 +315,7 @@ fun LiquidGlassDashboardScreen(viewModel: DashboardViewModel) {
                         )
                     } else {
                         val today = state.now.toLocalDate()
-                        state.upcomingEvents.take(8).forEachIndexed { idx, event ->
+                        state.upcomingEvents.take(10).forEachIndexed { idx, event ->
                             EventRow(
                                 event = event,
                                 today = today,
@@ -416,7 +328,7 @@ fun LiquidGlassDashboardScreen(viewModel: DashboardViewModel) {
                                     { viewModel.deleteLocalEvent(event.id) }
                                 } else null
                             )
-                            if (idx < state.upcomingEvents.take(8).lastIndex) {
+                            if (idx < state.upcomingEvents.take(10).lastIndex) {
                                 HorizontalDivider(
                                     color = if (isDark) Color.White.copy(alpha = 0.09f) else Color.Black.copy(alpha = 0.06f)
                                 )

@@ -9,7 +9,7 @@ import android.content.Intent
 import android.widget.RemoteViews
 import com.liquidglass.vncalendar.MainActivity
 import com.liquidglass.vncalendar.R
-import com.liquidglass.vncalendar.data.QuoteRepository
+import com.liquidglass.vncalendar.data.ScheduleRepository
 import com.liquidglass.vncalendar.data.VietnameseLunarCalendar
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -58,7 +58,7 @@ class LockScreenCompactWidgetProvider : AppWidgetProvider() {
                 mm = today.monthValue,
                 yy = today.year
             )
-            val quote = QuoteRepository.quoteForDate(today)
+            val nextEvent = ScheduleRepository(context).loadUpcomingEvents().firstOrNull()
 
             val views = RemoteViews(context.packageName, R.layout.widget_lock_compact)
 
@@ -69,12 +69,15 @@ class LockScreenCompactWidgetProvider : AppWidgetProvider() {
                 "ÂL ${lunar.compactDate} • $it"
             } ?: "ÂL ${lunar.compactDate} • ${lunar.yearCanChi}"
 
+            val secondLine = if (nextEvent != null) {
+                "${nextEvent.relativeDayLabel(today, zoneId)} ${nextEvent.formattedTime(zoneId)} • ${nextEvent.title}"
+            } else {
+                "Ngày ${lunar.dayCanChi} • Tháng ${lunar.monthCanChi}"
+            }
+
             views.setTextViewText(R.id.compact_solar_date, solarText)
             views.setTextViewText(R.id.compact_lunar_pill, lunarBadge)
-            views.setTextViewText(
-                R.id.compact_quote,
-                "“${quote.text}” — ${quote.author}"
-            )
+            views.setTextViewText(R.id.compact_next_event, secondLine)
 
             val openIntent = Intent(context, MainActivity::class.java)
             val pending = PendingIntent.getActivity(
